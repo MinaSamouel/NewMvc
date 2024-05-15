@@ -24,11 +24,6 @@ public class StudentController : Controller
     public IActionResult Index()
     {
         var students = _studentRepo.GetAll();
-        var firstStudent = students[0];
-        //if (firstStudent.StudentLearnings.Count() != 0)
-        //{
-        //    var courseNames = _studentLearningRepo.GetCoursesName(_studentLearningRepo.StudentCourses(firstStudent.Id));
-        //}
         return View(students);
     }
 
@@ -57,9 +52,9 @@ public class StudentController : Controller
     [HttpGet]
     public IActionResult Edit(int? id)
     {
-        if (id == null) return BadRequest();
+        if (id == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 400 });
         var model = _studentRepo.Get(id);
-        if (model == null) return NotFound();
+        if (model == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 404 });
         return View(model);
     }
 
@@ -78,9 +73,9 @@ public class StudentController : Controller
 
     public IActionResult ManageCourses(int? id)
     {
-        if (id == null) return BadRequest();
+        if (id == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 400 }); ;
         var model = _studentRepo.Get(id);
-        if (model == null) return NotFound();
+        if (model == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 404 }); ;
 
         var studentWithCourses = new StudentWithCourses() { Student = model};
 
@@ -93,10 +88,10 @@ public class StudentController : Controller
 
     public IActionResult RemoveCourseFromStudent(int? courseId, int? studentId)
     {
-        if (studentId == null || courseId == null) return BadRequest();
+        if (studentId == null || courseId == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 400 }); ;
         var course = _courseRepo.Get(courseId);
         var student = _studentRepo.Get(studentId);
-        if (course == null || student == null) return NotFound();
+        if (course == null || student == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 404 }); ;
 
         var studentLearn = _studentLearningRepo.GetElement((int)studentId, (int)courseId);
 
@@ -107,10 +102,10 @@ public class StudentController : Controller
 
     public IActionResult AddCourseToStudent(int? courseId, int? studentId)
     {
-        if (studentId == null || courseId == null) return BadRequest();
+        if (studentId == null || courseId == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 400 }); ;
         var course = _courseRepo.Get(courseId);
         var student = _studentRepo.Get(studentId);
-        if (course == null || student == null) return NotFound();
+        if (course == null || student == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 404 }); ;
 
         var studentLearn = new StudentLearning()
             { Course = course, CourseId = (int)courseId, Student = student, StudentId = (int)studentId };
@@ -124,7 +119,7 @@ public class StudentController : Controller
     {
         //if (studentId == null) return BadRequest();
         var student = _studentRepo.Get(id);
-        if(student == null) return NotFound();
+        if(student == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 404 }); ;
 
         _studentRepo.Remove(student);
         return RedirectToAction("Index");
