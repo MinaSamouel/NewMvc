@@ -46,9 +46,9 @@ public class CourseController : Controller
     [HttpGet]
     public IActionResult Edit(int? id)
     {
-        if(id == null) return BadRequest();
+        if (id == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 400});
         var model = _courseRepo.Get(id);
-        if (model == null) return NotFound();
+        if (model == null) return RedirectToAction("HttpStatusCodeHandler", "Error", new { statusCode = 404 }); ;
         return View(model);
     }
 
