@@ -1,0 +1,20 @@
+﻿@model Course
+@{
+    ViewBag.Title = "Update Course";
+}
+<form method="post" class="m-5" enctype="multipart/from-data">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">CourseName</label>
+        <input asp-for="Name" class="form-control" placeholder="CourseName" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="text-center text-danger" asp-validation-summary="ModelOnly"> </div>
+    <input type="submit" class="btn btn-warning" value="Updare Course" />
+    <a class="btn btn-dark" asp-action="Index" asp-controller="Course">Go To Index</a>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,75 @@
+﻿@model WebApplication1.ViewModel.StudentWithCourses
+@{
+    ViewBag.Title = "Manage Courses";
+}
+<div class="text-center">
+    <h1 class="text-primary"> Student Name: @Model.Student.Name</h1>
+</div>
+
+<div>
+    <h2 class="text-start"> Courses student study</h2>
+    <table class="table">
+        <thead class="table-info">
+        <tr>
+            <th> CourseName</th>
+            <th> Operation</th>
+        </tr>
+        </thead>
+        <tbody class="table-warning">
+        @if (@Model.CoursesStudied.Count() == 0)
+        {
+            <tr>
+                <td colspan="2" class="bg-danger text-center">Student Studies no courses</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model.CoursesStudied)
+            {
+                <tr>
+                    <td> @item.Name</td>
+                    <td>
+                        <a class="btn btn-danger" asp-action="RemoveCourseFromStudent" asp-controller="Student" asp-route-courseId="@item.Id" asp-route-studentId="@Model.Student.Id">Remove course From Student</a>
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+
+    </table>
+    
+    <h2 class="text-start"> Courses student doesnot study</h2>
+    <table class="table">
+        <thead class="table-info">
+        <tr>
+            <th> CourseName</th>
+            <th> Operation</th>
+        </tr>
+        </thead>
+        <tbody class="table-warning">
+        @if (@Model.CoursesNotStudied.Count() == 0)
+        {
+            <tr>
+                <td colspan="2" class="bg-danger text-center">Student Studies no courses</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model.CoursesNotStudied)
+            {
+                <tr>
+                    <td> @item.Name</td>
+                    <td>
+                        <a class="btn btn-success" asp-action="AddCourseToStudent" asp-controller="Student" asp-route-courseId="@item.Id" asp-route-studentId="@Model.Student.Id">Add Course To Student</a>
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+
+    </table>
+</div>
+
+<div class="text-center">
+    <a class="btn btn-dark" asp-controller="Student" asp-action="Index">Go To Index</a>
+</div>
